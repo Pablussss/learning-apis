@@ -53,7 +53,9 @@ app.delete('/api/product/:productId', (req,res) => {
 
 
 mongoose.connect('mongodb://localhost:27017/shop', (err ,res) => {
-    if (err) throw err;
+    if (err) {
+        return console.log(`Error al conectar a la bbdd: ${err}`);
+    }
     console.log('Conexion a la bbdd establecida');
 
     app.listen(port, () => {
