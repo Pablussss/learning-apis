@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // req = peticion
-// res = respuesta
+// res = respuesta.
 app.get('/hola/:name', (req,res) =>{
     res.send({ message: `Hello ${req.params.name}!`})
 })
