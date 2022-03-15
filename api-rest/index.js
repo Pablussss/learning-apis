@@ -59,15 +59,20 @@ app.post('/api/product', (req,res) => {
     })
 })
 
-app.put('/api/products/:productId', (req, res) => {
+app.put('/api/product/:productId', (req, res) => {
+    
+
     let productId = req.params.productId;
     let update = req.body
 
-    Product.findByIdAndUpdate(productId, update, (err, productUpdated) => {
+    Product.findByIdAndUpdate(productId, update,{new:true}, (err, productUpdated) => {
         if (err) res.status(500).send({message: `Error al actualizar ${err}`})
         res.status(200).send({ product: productUpdated })
     })
+
+
 })
+
 
 // Eliminar objeto
 app.delete('/api/product/:productId', (req,res) => {
