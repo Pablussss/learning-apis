@@ -1,8 +1,11 @@
+'use strict';
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Product = require('./models/product')
+const Product = require('./models/product');
+const product = require('./models/product');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -18,13 +21,26 @@ app.get('/hola/:name', (req,res) =>{
 
 //Simulacion api ecommerce
 app.get('/api/product' , (req,res) => {
-    res.status(200).send({ products: []})
+    Product.find({}, (err,products) => {
+        if (err) return res.status(500).send({message: `Error al realizar la peticion ${err.message}`})
+        if (!products) return res.status(404).send({message: `No existen productos`})
+
+        res.status(200).send({ products })
+    })
 })
 
-app.get('api/product/:productId', (req,res) => {
+// Consultar producto por ID
+app.get('/api/product/:productId', (req,res) => {
+    let productId = req.params.productId;
+    Product.findById(productId, (err, product) => {
+        if(err) return res.status(500).send({message: `Error al realizar la peticion ${err}`})
+        if(!product) return res.status(404).send({message: `El producto ${product} no existe`})
 
+        res.status(200).send({ product: product })
+    })
 })
 
+// Crear nuevo producto
 app.post('/api/product', (req,res) => {
     console.log('POST /api/product')
     console.log(req.body);
@@ -43,12 +59,25 @@ app.post('/api/product', (req,res) => {
     })
 })
 
-app.put('/api/product/:productId', (req,res) => {
+app.put('/api/products/:productId', (req, res) => {
+    let productId = req.params.productId;
+    let update = req.body
 
+    Product.findByIdAndUpdate(productId, update, (err, productUpdated) => {
+        if (err) res.status(500).send({message: `Error al actualizar ${err}`})
+        res.status(200).send({ product: productUpdated })
+    })
 })
 
+// Eliminar objeto
 app.delete('/api/product/:productId', (req,res) => {
+    let productId = req.params.productId;
 
+    Product.findByIdAndDelete(productId, (err) => {
+        if (err) res.status(500).send({message: `Error al eliminar el producto: ${err}`})
+        res.status(200).send({message: `Producto eliminado con exito`})
+       
+    })
 })
 
 
