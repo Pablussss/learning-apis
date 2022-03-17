@@ -1,6 +1,6 @@
 const express = require('express');
-const api = express.Router();
 const productCtrl = require('../controllers/product')
+const api = express.Router();
 const auth = require('../middlewares/auth')
 
 //Simulacion api ecommerce
@@ -15,7 +15,7 @@ api.put('/product/:productId', productCtrl.updateProduct)
 api.delete('/product/:productId', productCtrl.deleteProduct)
 
 // Privado
-api.get('/private', auth.isAuth, (req,res) => {
+api.get('/private', auth, (req, res) => {
     res.status(200).send( { message: 'Acceso concedido' })
 })
 
