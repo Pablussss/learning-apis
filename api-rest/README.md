@@ -1,7 +1,7 @@
 # Estructura
-### /controllers
-// Controlan funciones dentro de la API (Crear, actualizar, eliminar...)
-product.js
+## /controllers
+### product.js
+Controlan funciones dentro de la API (Crear, actualizar, eliminar...)
 ### /models
 ### /node_modules
 ### /routers
