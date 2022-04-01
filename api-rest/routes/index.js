@@ -1,5 +1,6 @@
 const express = require('express');
 const productCtrl = require('../controllers/product')
+const userCtrl = require('../controllers/user')
 const api = express.Router();
 const auth = require('../middlewares/auth')
 
@@ -13,6 +14,11 @@ api.post('/product', productCtrl.saveProduct)
 api.put('/product/:productId', productCtrl.updateProduct)
 // Eliminar 
 api.delete('/product/:productId', productCtrl.deleteProduct)
+
+// Registro usuario
+api.post('/signup', userCtrl.signUp)
+//Login usuario
+api.post('/login', userCtrl.signIn)
 
 // Privado
 api.get('/private', auth, (req, res) => {

@@ -1,4 +1,3 @@
-const mongoose = require('mongoose')
 const User = require('../models/user')
 const service = require('../services')
 
@@ -6,12 +5,15 @@ function signUp (req, res) {
     const user = new User({
         email: req.body.email,
         displayName: req.body.displayName,
+        password: req.body.password
     });
+
+    user.avatar = user.gravatar()
 
     user.save((err) => {
         if (err) res.status(500).send({message: `Error al crear el usuario: ${err.message}`});
 
-        return res.status(200).send({token: service.CreateToken(user)})
+        return res.status(200).send({token: service.createToken(user)})
     })
 }
 
@@ -23,7 +25,7 @@ function signIn (req, res) {
         req.user = user;
         res.status(200).send({ 
             message: `Te has logueado correctamente`,
-            token: service.CreateToken(user)
+            token: service.createToken(user)
         })
     })
 }
