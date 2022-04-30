@@ -1,10 +1,7 @@
-numbers = []
+let resultado = 0;
 
-function arr () {
-    
+for (let i = 2; i < process.argv.length; i++) {
+    resultado += Number(process.argv[i]);
 }
 
-function babySteps () {
-
-}
-
+console.log(resultado);
